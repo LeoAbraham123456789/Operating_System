@@ -9,7 +9,7 @@ void print(int frameno, int frame[])
 int main()
 {
     int i, j, k, n, page[50], frameno, frame[10], move = 0, flag, count = 0, count1[10] = {0},
-                                                  repindex, leastcount;
+                                                  repindex, leastcount, current=0, counts=0, flag2=0;
     float rate;
     printf("Enter the number of pages\n");
     scanf("%d", &n);
@@ -46,16 +46,26 @@ int main()
         else if (flag == 0)
         {
             repindex = 0;
-            leastcount = count1[0];
-            for (j = 1; j < frameno; j++)
+            leastcount = count1[current];
+            counts=0;
+            for (j = current; counts!=frameno; j=(j+1)%frameno)
             {
+
                 if (count1[j] < leastcount)
                 {
                     repindex = j;
                     leastcount = count1[j];
+                    current=(j+1)%frameno;
+                    flag2=1;
                 }
+                counts=counts+1;
             }
-
+            if(flag2==0)
+            {
+                repindex=current;
+                current=(current+1)%frameno;
+            }
+            flag2=0;
             frame[repindex] = page[i];
             count1[repindex] = 1;
             count++;
